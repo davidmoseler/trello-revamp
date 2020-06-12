@@ -14,11 +14,23 @@
     </v-app-bar>
     <v-content>
       <div class="card-grid">
-        <v-card v-for="(list, idx) in lists" :key=idx rounded elevation="10" color="grey lighten-4">
-          <div class="list-header">{{list}}</div>
+        <v-card
+          v-for="(list, idx) in lists"
+          :key="idx"
+          rounded
+          elevation="10"
+          height="200px"
+          color="grey lighten-4"
+        >
+          <div class="list-header">{{ list }}</div>
+          <div class="list-body">
             <v-card class="card">Test</v-card>
             <v-card class="card">Test</v-card>
             <v-card class="card">Test</v-card>
+            <v-card class="card">Test</v-card>
+            <v-card class="card">Test</v-card>
+            <v-card class="card">Test</v-card>
+          </div>
         </v-card>
       </div>
     </v-content>
@@ -41,7 +53,7 @@ export default {
       'Hello this is a list',
       'Hello this is a list',
       'Hello this is a list',
-      'Hello this is a list',
+      'Hello this is a list'
     ]
   })
 };
@@ -49,10 +61,10 @@ export default {
 
 <style>
 @font-face {
-    font-family: 'Segoe UI Regular';
-    font-style: normal;
-    font-weight: normal;
-    src: local('Segoe UI Regular'), url('/assets/fonts/Segoe UI.woff') format('woff');
+  font-family: 'Segoe UI Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Segoe UI Regular'), url('/assets/fonts/Segoe UI.woff') format('woff');
 }
 .card-grid {
   display: grid;
@@ -64,6 +76,10 @@ export default {
   font-weight: bold;
   font-family: 'Segoe Ui Regular';
   padding: 10px 0 20px 20px;
+}
+.list-body {
+  overflow: auto;
+  height: 70%;
 }
 .card {
   margin-left: 10px;
