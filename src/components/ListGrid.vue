@@ -1,6 +1,9 @@
 <template>
   <draggable v-model="lists" group="lists" class="list-grid">
     <List v-for="(list, idx) in lists" :key="idx" :list="list" />
+    <v-card @click="addList" class="list" rounded elevation="10" max-height="250px" color="grey lighten-2">
+      +List
+    </v-card>
   </draggable>
 </template>
 
@@ -16,29 +19,16 @@ export default {
     List
   },
   data: () => ({
-    lists: [
-      {
+    lists: []
+  }),
+  methods: {
+    addList(){
+      this.lists.push({
         title: 'Hello this is a list',
         cards: []
-      },
-      {
-        title: 'Hello this is a list',
-        cards: []
-      },
-      {
-        title: 'Hello this is a list',
-        cards: []
-      },
-      {
-        title: 'Hello this is a list',
-        cards: []
-      },
-      {
-        title: 'Hello this is a list',
-        cards: []
-      }
-    ]
-  })
+      })
+    }
+  }
 };
 </script>
 
