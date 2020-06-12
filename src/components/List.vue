@@ -1,9 +1,10 @@
 <template>
-  <v-card rounded elevation="10" height="200px" color="grey lighten-4">
+  <v-card rounded elevation="10" height="250px" color="grey lighten-4">
     <div class="list-header">{{ list.title }}</div>
     <draggable v-model="list.cards" group="cards" class="list-body">
       <Card v-for="(card, idx) in list.cards" :key="idx" :text="card" />
     </draggable>
+    <v-btn class="plus-button grey--text" flat bottom text height="20%" width="100%">+ Add Card</v-btn>
   </v-card>
 </template>
 
@@ -30,6 +31,11 @@ export default {
 }
 .list-body {
   overflow: auto;
-  height: 70%;
+  height: 60%;
+}
+.plus-button {
+  padding-right: 30px !important;
+  font-size: 20px !important;
+  text-transform: none !important;
 }
 </style>
