@@ -1,10 +1,12 @@
 <template>
-  <v-card class="card">Test</v-card>
+  <v-card class="card">{{ text }}</v-card>
 </template>
 
 <script>
 export default {
-  name: 'Card'
+  name: 'Card',
+
+  props: ['text']
 };
 </script>
 
