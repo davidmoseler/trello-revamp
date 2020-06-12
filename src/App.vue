@@ -13,49 +13,20 @@
       <v-avatar color="white" class="blue--text body-1">D</v-avatar>
     </v-app-bar>
     <v-content>
-      <div class="card-grid">
-        <v-card
-          v-for="(list, idx) in lists"
-          :key="idx"
-          rounded
-          elevation="10"
-          height="200px"
-          color="grey lighten-4"
-        >
-          <div class="list-header">{{ list }}</div>
-          <div class="list-body">
-            <v-card class="card">Test</v-card>
-            <v-card class="card">Test</v-card>
-            <v-card class="card">Test</v-card>
-            <v-card class="card">Test</v-card>
-            <v-card class="card">Test</v-card>
-            <v-card class="card">Test</v-card>
-          </div>
-        </v-card>
-      </div>
+      <ListGrid />
     </v-content>
   </v-app>
 </template>
 
 <script>
+import ListGrid from '@/components/ListGrid.vue';
+
 export default {
   name: 'App',
 
-  data: () => ({
-    lists: [
-      'Hello this is a list',
-      'Hello this is a list',
-      'Hello this is a list',
-      'Hello this is a list',
-      'Hello this is a list',
-      'Hello this is a list',
-      'Hello this is a list',
-      'Hello this is a list',
-      'Hello this is a list',
-      'Hello this is a list',
-      'Hello this is a list'
-    ]
-  })
+  components: {
+    ListGrid
+  }
 };
 </script>
 
@@ -65,26 +36,5 @@ export default {
   font-style: normal;
   font-weight: normal;
   src: local('Segoe UI Regular'), url('/assets/fonts/Segoe UI.woff') format('woff');
-}
-.card-grid {
-  display: grid;
-  margin: 40px;
-  grid-gap: 40px;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-}
-.list-header {
-  font-weight: bold;
-  font-family: 'Segoe Ui Regular';
-  padding: 10px 0 20px 20px;
-}
-.list-body {
-  overflow: auto;
-  height: 70%;
-}
-.card {
-  margin-left: 10px;
-  margin-right: 10px;
-  margin-bottom: 5px;
-  padding: 3px;
 }
 </style>
