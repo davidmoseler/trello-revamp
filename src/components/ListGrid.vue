@@ -19,23 +19,23 @@ export default {
     lists: [
       {
         title: 'Hello this is a list',
-        cards: ['Test1', 'Test2', 'Test3', 'Test4', 'Test5', 'Test6']
+        cards: []
       },
       {
         title: 'Hello this is a list',
-        cards: ['Test1', 'Test2', 'Test3', 'Test4', 'Test5', 'Test6']
+        cards: []
       },
       {
         title: 'Hello this is a list',
-        cards: ['Test1', 'Test2', 'Test3', 'Test4', 'Test5', 'Test6']
+        cards: []
       },
       {
         title: 'Hello this is a list',
-        cards: ['Test1', 'Test2', 'Test3', 'Test4', 'Test5', 'Test6']
+        cards: []
       },
       {
         title: 'Hello this is a list',
-        cards: ['Test1', 'Test2', 'Test3', 'Test4', 'Test5', 'Test6']
+        cards: []
       }
     ]
   })
