@@ -1,6 +1,7 @@
 <template>
   <v-card class="list" rounded elevation="10" max-height="250px" color="grey lighten-4">
     <div class="list-header">{{ list.title }}</div>
+    <v-icon @click="deleteList" style="float: right!important" right>mdi-delete</v-icon>
     <draggable v-model="list.cards" group="cards" class="list-body">
       <Card @click.native="openEdit(card)" v-for="card in list.cards" :key="card.id" :card="card" />
       <v-card v-if="newCard.on" class="card">
@@ -64,6 +65,9 @@ export default {
     deleteCard(id) {
       const idx = this.list.cards.findIndex(card => card.id == id);
       this.list.cards.splice(idx, 1);
+    },
+    deleteList() {
+      this.$emit('deleteList', this.list.id);
     }
   }
 };

@@ -1,6 +1,6 @@
 <template>
   <draggable v-model="lists" group="lists" class="list-grid">
-    <List v-for="(list, idx) in lists" :key="idx" :list="list" />
+    <List @deleteList="deleteList" v-for="list in lists" :key="list.id" :list="list" />
     <v-card
       @click="addList"
       class="list"
@@ -26,14 +26,21 @@ export default {
     List
   },
   data: () => ({
-    lists: []
+    lists: [],
+    runningIndex: 0
   }),
   methods: {
     addList() {
       this.lists.push({
+        id: this.runningIndex,
         title: 'Hello this is a list',
         cards: []
       });
+      this.runningIndex++;
+    },
+    deleteList(id) {
+      const idx = this.lists.findIndex(list => list.id == id);
+      this.lists.splice(idx, 1);
     }
   }
 };
