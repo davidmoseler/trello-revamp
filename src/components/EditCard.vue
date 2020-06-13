@@ -10,14 +10,19 @@
       </v-card-title>
       <v-form ref="form" lazy-validation>
         <div class="textarea">
-          <v-textarea solo height="100px" required no-resize v-model="card.text"></v-textarea>
+          <v-textarea
+            @keydown="handleKeydown"
+            solo
+            autofocus
+            height="100px"
+            required
+            no-resize
+            v-model="card.text"
+          ></v-textarea>
         </div>
       </v-form>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn class="grey--text">
-          Save
-        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -44,7 +49,15 @@ export default {
       }
     }
   },
-  methods: {}
+  methods: {
+    handleKeydown(e) {
+      if (e.key == 'Enter') {
+        this.dialog = false;
+        this.$emit('edited', true);
+        e.preventDefault();
+      }
+    }
+  }
 };
 </script>
 

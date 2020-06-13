@@ -4,7 +4,7 @@
     <draggable v-model="list.cards" group="cards" class="list-body">
       <Card @click.native="openEdit(card)" v-for="card in list.cards" :key="card.id" :card="card" />
       <v-card v-if="newCard.on" class="card">
-        <v-text-field solo v-model="newCard.text" @keydown="test($event)"> </v-text-field>
+        <v-text-field autofocus solo v-model="newCard.text" @keydown="test($event)"> </v-text-field>
       </v-card>
       <v-card @click="newCard.on = true" v-else class="card">+ Add Card</v-card>
     </draggable>
