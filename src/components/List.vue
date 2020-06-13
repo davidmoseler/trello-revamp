@@ -1,6 +1,17 @@
 <template>
   <v-card class="list" rounded elevation="10" max-height="250px" color="grey lighten-4">
-    <div class="list-header">{{ list.title }}</div>
+    <v-text-field
+      v-if="editingTitle"
+      class="list-header"
+      hide-details="auto"
+      flat
+      autofocus
+      solo
+      v-model="list.title"
+      @keydown="editTitleKeyDown($event)"
+    >
+    </v-text-field>
+    <div v-else class="list-header" @click="editingTitle = true">{{ list.title }}</div>
     <v-icon class="trash-icon" width="10%" right @click="deleteList">mdi-delete</v-icon>
     <div class="list-body">
       <draggable v-model="list.cards" group="cards">
@@ -19,7 +30,7 @@
         autofocus
         solo
         v-model="newCard.text"
-        @keydown="test($event)"
+        @keydown="newCardKeyDown($event)"
       >
       </v-text-field>
     </v-card>
@@ -56,6 +67,7 @@ export default {
     EditCard
   },
   data: () => ({
+    editingTitle: true,
     editingCard: false,
     newCard: {
       on: false,
@@ -79,9 +91,14 @@ export default {
       this.editingCard = true;
       this.currentCard = card;
     },
-    test(e) {
+    newCardKeyDown(e) {
       if (e.key == 'Enter') {
         this.addCard();
+      }
+    },
+    editTitleKeyDown(e) {
+      if (e.key == 'Enter') {
+        this.editingTitle = false;
       }
     },
     deleteCard(id) {

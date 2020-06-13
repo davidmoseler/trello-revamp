@@ -37,7 +37,7 @@ export default {
     addList() {
       this.lists.push({
         id: this.runningIndex,
-        title: 'Hello this is a list',
+        title: '',
         cards: []
       });
       this.runningIndex++;
