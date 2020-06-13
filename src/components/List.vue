@@ -13,6 +13,7 @@
       :card="currentCard"
       @edited="editingCard = false"
       @click:outside="editingCard = false"
+      @deleteCard="deleteCard"
     />
   </v-card>
 </template>
@@ -59,6 +60,10 @@ export default {
       if (e.key == 'Enter') {
         this.addCard();
       }
+    },
+    deleteCard(id) {
+      const idx = this.list.cards.findIndex(card => card.id == id);
+      this.list.cards.splice(idx, 1);
     }
   }
 };

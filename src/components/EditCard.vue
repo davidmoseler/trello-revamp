@@ -5,9 +5,10 @@
     <v-divider></v-divider>
 
     <v-card>
-      <v-card-title class="headline grey lighten-2" primary-title>
+      <h1 class="headline grey lighten-2">
         Edit Card
-      </v-card-title>
+        <v-icon @click="deleteCard" style="float: right!important" right>mdi-delete</v-icon>
+      </h1>
       <v-form ref="form" lazy-validation>
         <div class="textarea">
           <v-textarea
@@ -56,6 +57,11 @@ export default {
         this.$emit('edited', true);
         e.preventDefault();
       }
+    },
+    deleteCard() {
+      this.$emit('deleteCard', this.card.id);
+      this.dialog = false;
+      this.$emit('edited', true);
     }
   }
 };
