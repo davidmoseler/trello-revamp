@@ -1,14 +1,36 @@
 <template>
   <v-card class="list" rounded elevation="10" max-height="250px" color="grey lighten-4">
     <div class="list-header">{{ list.title }}</div>
-    <v-icon @click="deleteList" style="float: right!important" right>mdi-delete</v-icon>
-    <draggable v-model="list.cards" group="cards" class="list-body">
-      <Card @click.native="openEdit(card)" v-for="card in list.cards" :key="card.id" :card="card" />
-      <v-card v-if="newCard.on" class="card">
-        <v-text-field autofocus solo v-model="newCard.text" @keydown="test($event)"> </v-text-field>
-      </v-card>
-      <v-card @click="newCard.on = true" v-else class="card">+ Add Card</v-card>
-    </draggable>
+    <v-icon class="trash-icon" width="10%" right @click="deleteList">mdi-delete</v-icon>
+    <div class="list-body">
+      <draggable v-model="list.cards" group="cards">
+        <Card
+          @click.native="openEdit(card)"
+          v-for="card in list.cards"
+          :key="card.id"
+          :card="card"
+        />
+      </draggable>
+    </div>
+    <v-card class="add-card" v-if="newCard.on">
+      <v-text-field
+        hide-details="auto"
+        flat
+        autofocus
+        solo
+        v-model="newCard.text"
+        @keydown="test($event)"
+      >
+      </v-text-field>
+    </v-card>
+    <v-card
+      color="grey lighten-4 grey--text"
+      flat
+      class="add-card"
+      @click="newCard.on = true"
+      v-else
+      >+ Add Card</v-card
+    >
     <EditCard
       :editing="editingCard"
       :card="currentCard"
@@ -77,17 +99,35 @@ export default {
 .list {
   display: inline-block !important;
 }
+.trash-icon {
+  width: 10%;
+  float: left;
+  padding: 20px 0 0px 0px;
+  margin: 0 !important;
+  box-sizing: border-box;
+}
 .list-header {
+  width: 85%;
+  float: left;
   font-weight: bold;
   font-family: 'Segoe Ui Regular';
-  padding: 10px 0 20px 20px;
+  padding: 20px 0 20px 20px;
 }
 .list-body {
+  clear: both;
+  max-height: 60%;
   overflow: auto;
-  height: 60%;
+}
+.add-card {
+  width: 100%;
+  text-align: center;
+  padding-right: 30px;
+  bottom: 0px;
+  margin-top: 5px;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
 }
 .plus-button {
-  padding-right: 30px !important;
   font-size: 20px !important;
   text-transform: none !important;
 }

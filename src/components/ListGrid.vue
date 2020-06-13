@@ -3,13 +3,17 @@
     <List @deleteList="deleteList" v-for="list in lists" :key="list.id" :list="list" />
     <v-card
       @click="addList"
-      class="list"
+      class="list grey--text"
       rounded
       elevation="10"
       max-height="250px"
       color="grey lighten-2"
     >
-      +List
+      <div class="fuck">
+        <h3 class="plus-list">
+          +List
+        </h3>
+      </div>
     </v-card>
   </draggable>
 </template>
@@ -52,5 +56,15 @@ export default {
   margin: 40px;
   grid-gap: 40px;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+.plus-list {
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+}
+.fuck {
+  display: table;
+  width: 100%;
+  height: 100%;
 }
 </style>

@@ -1,21 +1,12 @@
 <template>
-  <v-dialog v-model="dialog" width="30%" height="60%">
-    <v-card-text> </v-card-text>
-
-    <v-divider></v-divider>
-
+  <v-dialog v-model="dialog" max-width="450px" class="dialog">
     <v-card>
-      <h1 class="headline grey lighten-2">
-        Edit Card
-        <v-icon @click="deleteCard" style="float: right!important" right>mdi-delete</v-icon>
-      </h1>
-      <v-form ref="form" lazy-validation>
-        <div class="textarea">
+      <v-form>
+        <div class="edit">
           <v-textarea
             @keydown="handleKeydown"
             solo
             autofocus
-            height="100px"
             required
             no-resize
             v-model="card.text"
@@ -24,6 +15,9 @@
       </v-form>
       <v-card-actions>
         <v-spacer></v-spacer>
+        <v-btn color="primary" text @click="dialog = false">
+          Save
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -68,7 +62,10 @@ export default {
 </script>
 
 <style>
-.textarea {
-  margin: 20px 30px -30px 30px;
+.edit {
+  padding: 30px 30px 0px 30px;
+}
+.dialog {
+  min-width: 100px !important;
 }
 </style>
