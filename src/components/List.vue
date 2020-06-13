@@ -1,56 +1,26 @@
 <template>
-  <v-card rounded elevation="10" height="250px" color="grey lighten-4">
+  <v-card class="list" rounded elevation="10" max-height="250px" color="grey lighten-4">
     <div class="list-header">{{ list.title }}</div>
     <draggable v-model="list.cards" group="cards" class="list-body">
-      <Card v-for="(card, idx) in list.cards" :key="idx" :text="card" />
-    </draggable>
-    <v-dialog v-model="dialog" width="30%" height="60%">
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn v-bind="attrs" v-on="on" class="plus-button grey--text" bottom text height="20%" width="100%">+ Add Card</v-btn>
-      </template>
-
-      <v-card-text>
-      </v-card-text>
-
-      <v-divider></v-divider>
-
-      <v-card>
-        <v-card-title
-          class="headline grey lighten-2"
-          primary-title
-        >
-          Add Card
-        </v-card-title>
-        <v-form
-          ref="form"
-          lazy-validation
-        >
-          <div class="textarea">
-            <v-textarea
-              v-model="newCard.text"
-              solo
-              height="100px"
-              required
-            ></v-textarea>
-          </div>
-        </v-form>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            class="grey--text"
-            @click="addCard"
-          >
-            + Add Card
-          </v-btn>
-        </v-card-actions>
+      <Card @click.native="openEdit(card)" v-for="card in list.cards" :key="card.id" :card="card" />
+      <v-card v-if="newCard.on" class="card">
+        <v-text-field solo v-model="newCard.text" @keydown="test($event)"> </v-text-field>
       </v-card>
-    </v-dialog>
+      <v-card @click="newCard.on = true" v-else class="card">+ Add Card</v-card>
+    </draggable>
+    <EditCard
+      :editing="editingCard"
+      :card="currentCard"
+      @edited="editingCard = false"
+      @click:outside="editingCard = false"
+    />
   </v-card>
 </template>
 
 <script>
 import draggable from 'vuedraggable';
 import Card from '@/components/Card.vue';
+import EditCard from '@/components/EditCard.vue';
 
 export default {
   name: 'List',
@@ -58,25 +28,46 @@ export default {
   props: ['list'],
   components: {
     draggable,
-    Card
+    Card,
+    EditCard
   },
   data: () => ({
-    dialog: false,
+    editingCard: false,
     newCard: {
-      text: ""
-    }
+      on: false,
+      text: ''
+    },
+    runningIndex: 0,
+    currentCard: {}
   }),
   methods: {
-    addCard(){
-      this.dialog = false
-      this.list.cards.push(this.newCard.text)
-      this.newCard.text = ""
+    addCard() {
+      const card = {
+        id: this.runningIndex,
+        text: this.newCard.text
+      };
+      this.runningIndex++;
+      this.list.cards.push(card);
+      this.newCard.on = false;
+      this.newCard.text = '';
+    },
+    openEdit(card) {
+      this.editingCard = true;
+      this.currentCard = card;
+    },
+    test(e) {
+      if (e.key == 'Enter') {
+        this.addCard();
+      }
     }
   }
 };
 </script>
 
 <style>
+.list {
+  display: inline-block !important;
+}
 .list-header {
   font-weight: bold;
   font-family: 'Segoe Ui Regular';
