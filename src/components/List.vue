@@ -22,26 +22,23 @@
           :card="card"
         />
       </draggable>
+      <v-card class="add-card" v-if="newCard">
+        <v-text-field
+          hide-details="auto"
+          flat
+          autofocus
+          solo
+          v-model="list.cards.slice(-1)[0].text"
+          @keydown="newCardKeyDown($event)"
+        >
+        </v-text-field>
+      </v-card>
     </div>
-    <v-card class="add-card" v-if="newCard.on">
-      <v-text-field
-        hide-details="auto"
-        flat
-        autofocus
-        solo
-        v-model="newCard.text"
-        @keydown="newCardKeyDown($event)"
-      >
-      </v-text-field>
+    <v-card flat @click="addCard">
+      <v-btn block depressed color="grey lighten-4 grey--text" class="add-card">
+        + Add Card
+      </v-btn>
     </v-card>
-    <v-card
-      color="grey lighten-4 grey--text"
-      flat
-      class="add-card"
-      @click="newCard.on = true"
-      v-else
-      >+ Add Card</v-card
-    >
     <EditCard
       :editing="editingCard"
       :card="currentCard"
@@ -67,12 +64,9 @@ export default {
     EditCard
   },
   data: () => ({
-    editingTitle: true,
+    editingTitle: false,
     editingCard: false,
-    newCard: {
-      on: false,
-      text: ''
-    },
+    newCard: false,
     runningIndex: 0,
     currentCard: {}
   }),
@@ -80,12 +74,11 @@ export default {
     addCard() {
       const card = {
         id: this.runningIndex,
-        text: this.newCard.text
+        text: ''
       };
       this.runningIndex++;
       this.list.cards.push(card);
-      this.newCard.on = false;
-      this.newCard.text = '';
+      this.newCard = true;
     },
     openEdit(card) {
       this.editingCard = true;
@@ -93,7 +86,7 @@ export default {
     },
     newCardKeyDown(e) {
       if (e.key == 'Enter') {
-        this.addCard();
+        this.newCard = false;
       }
     },
     editTitleKeyDown(e) {
@@ -108,6 +101,9 @@ export default {
     deleteList() {
       this.$emit('deleteList', this.list.id);
     }
+  },
+  mounted() {
+    this.editingTitle = !this.list.title;
   }
 };
 </script>
@@ -143,10 +139,6 @@ export default {
   margin-top: 5px;
   margin-bottom: 0px;
   padding-bottom: 0px;
-}
-.plus-button {
-  font-size: 20px !important;
-  text-transform: none !important;
 }
 .textarea {
   margin: 20px 30px -30px 30px;

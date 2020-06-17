@@ -5,7 +5,5 @@ module.exports = {
       symlinks: false
     }
   },
-  publicPath: process.env.NODE_ENV === 'production'
-    ? '/trello-revamp/'
-    : '/'
+  publicPath: process.env.NODE_ENV === 'production' ? '/trello-revamp/' : '/'
 };

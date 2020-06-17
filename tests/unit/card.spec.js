@@ -1,18 +1,18 @@
 import Vue from 'vue';
-import { createLocalVue, mount } from '@vue/test-utils'
-import Card from '@/components/Card.vue'
+import { mount } from '@vue/test-utils';
+import Card from '@/components/Card.vue';
 import Vuetify from 'vuetify';
 
-Vue.use(Vuetify)
+Vue.use(Vuetify);
 
-describe('Card', ()=>{
-  test('has text', ()=>{
+describe('Card', () => {
+  test('has correct text', () => {
     const wrapper = mount(Card, {
       propsData: {
-        card: {text: 'Texty text'}
+        card: { text: 'Texty text' }
       }
-    })
+    });
 
     expect(wrapper.html()).toContain('Texty text');
-  })
-})
+  });
+});
