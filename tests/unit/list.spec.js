@@ -5,7 +5,13 @@ import Vuetify from 'vuetify';
 
 Vue.use(Vuetify);
 
+let vuetify
+
 describe('List', () => {
+  beforeEach(()=>{
+    vuetify = new Vuetify({})
+  })
+
   test('should display received title', () => {
     const wrapper = mount(List, {
       propsData: {
@@ -149,4 +155,48 @@ describe('List', () => {
     expect(wrapper.vm.list.cards.slice(-1)[0].text).toBe('title');
     wrapper.destroy();
   });
+
+  test('should edit card when clicked', async () => {
+    const node = document.createElement('div');
+    node.setAttribute('id', 'app');
+    document.body.appendChild(node);
+
+    const app = document.createElement('div');
+    app.setAttribute('data-app', true);
+    document.body.append(app);
+
+    const wrapper = mount(List, {
+      attachTo: '#app',
+      vuetify,
+      propsData: {
+        list: {
+          id: 0,
+          title: 'title',
+          cards: [{id: 0, text: 'To be edited'}]
+        }
+      }
+    });
+
+    const card = wrapper
+      .findAllComponents({name: 'Card'})
+      .filter(card => {
+        return card
+          .html()
+          .toLowerCase()
+          .includes('to be edited');
+      })
+      .at(0);
+
+    expect(card.html()).toContain('To be edited');
+
+    await card.trigger('click');
+
+    const input = wrapper.find('textarea');
+    input.element.value = 'Successfully edited';
+    input.trigger('input');
+
+    expect(wrapper.vm.list.cards.slice(-1)[0].text).toBe('Successfully edited');
+    wrapper.destroy();
+  });
+
 });

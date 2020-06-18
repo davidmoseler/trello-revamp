@@ -27,4 +27,30 @@ describe('ListGrid', () => {
 
     expect(wrapper.vm.lists.length).toBe(2);
   });
+
+  test('should delete lists', async () => {
+    const wrapper = mount(ListGrid, {});
+
+    wrapper.vm.lists = [
+      {id: 0, title: 'My title', cards: [{id: 0, text: 'Text'}]},
+      {id: 1, title: 'My other title', cards: []}
+    ]
+
+    expect(wrapper.vm.lists.length).toBe(2);
+
+    await Vue.nextTick();
+
+    let list = wrapper.findAllComponents({ name: 'List' }).at(1);
+    await list.find('.trash-icon').trigger('click');
+
+    expect(wrapper.vm.lists.length).toBe(1);
+
+    expect(wrapper.vm.lists.slice(-1)[0].title).toBe('My title')
+
+    list = wrapper.findAllComponents({ name: 'List' }).at(0);
+    await list.find('.trash-icon').trigger('click')
+
+    expect(wrapper.vm.lists.length).toBe(0);
+  });
+
 });
