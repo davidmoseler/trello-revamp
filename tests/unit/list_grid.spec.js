@@ -7,25 +7,24 @@ Vue.use(Vuetify);
 
 describe('ListGrid', () => {
   test('should add lists when +List is clicked', () => {
-    const wrapper = mount(ListGrid, {
+    const wrapper = mount(ListGrid, {});
+
+    expect(wrapper.vm.lists.length).toBe(0);
+
+    let newListCard = wrapper.findAllComponents({ name: 'v-card' }).filter(card => {
+      return card.html().includes('+List');
     });
 
-    expect(wrapper.vm.lists.length).toBe(0)
+    newListCard.trigger('click');
 
-    let newListCard = wrapper.findAllComponents({name: 'v-card'}).filter((card)=>{
-      return card.html().includes('+List')
-    })
+    expect(wrapper.vm.lists.length).toBe(1);
 
-    newListCard.trigger('click')
+    newListCard = wrapper.findAllComponents({ name: 'v-card' }).filter(card => {
+      return card.html().includes('+List');
+    });
 
-    expect(wrapper.vm.lists.length).toBe(1)
+    newListCard.trigger('click');
 
-    newListCard = wrapper.findAllComponents({name: 'v-card'}).filter((card)=>{
-      return card.html().includes('+List')
-    })
-
-    newListCard.trigger('click')
-
-    expect(wrapper.vm.lists.length).toBe(2)
-  })
-})
+    expect(wrapper.vm.lists.length).toBe(2);
+  });
+});

@@ -2,7 +2,7 @@
   <v-card class="list" rounded elevation="10" max-height="250px" color="grey lighten-4">
     <v-text-field
       v-if="editingTitle"
-      class="list-header"
+      class="list-title title-edit"
       hide-details="auto"
       flat
       autofocus
@@ -11,18 +11,18 @@
       @keydown="editTitleKeyDown($event)"
     >
     </v-text-field>
-    <div v-else class="list-header" @click="editingTitle = true">{{ list.title }}</div>
+    <div v-else class="list-title" @click="editingTitle = true">{{ list.title }}</div>
     <v-icon class="trash-icon" width="10%" right @click="deleteList">mdi-delete</v-icon>
     <div class="list-body">
       <draggable v-model="list.cards" group="cards">
         <Card
           @click.native="openEdit(card)"
-          v-for="card in list.cards"
+          v-for="card in list.cards.filter(card => !card.hidden)"
           :key="card.id"
           :card="card"
         />
       </draggable>
-      <v-card class="add-card" v-if="newCard">
+      <v-card class="new-card" v-if="newCard">
         <v-text-field
           hide-details="auto"
           flat
@@ -74,7 +74,8 @@ export default {
     addCard() {
       const card = {
         id: this.runningIndex,
-        text: ''
+        text: '',
+        hidden: true
       };
       this.runningIndex++;
       this.list.cards.push(card);
@@ -86,6 +87,7 @@ export default {
     },
     newCardKeyDown(e) {
       if (e.key == 'Enter') {
+        this.list.cards.slice(-1)[0].hidden = false;
         this.newCard = false;
       }
     },
@@ -108,7 +110,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .list {
   display: inline-block !important;
 }
@@ -119,17 +121,26 @@ export default {
   margin: 0 !important;
   box-sizing: border-box;
 }
-.list-header {
+.list-title {
   width: 85%;
   float: left;
   font-weight: bold;
   font-family: 'Segoe Ui Regular';
   padding: 20px 0 20px 20px;
 }
+.title-edit {
+  padding: 8px 0 8px 8px;
+}
 .list-body {
   clear: both;
   max-height: 60%;
   overflow: auto;
+}
+.new-card {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  padding: 0px;
 }
 .add-card {
   width: 100%;

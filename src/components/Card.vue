@@ -12,7 +12,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .card {
   margin-left: 10px;
   margin-right: 10px;
