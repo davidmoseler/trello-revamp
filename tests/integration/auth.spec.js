@@ -1,4 +1,7 @@
-import '@vue/test-utils';
+/**
+ * @jest-environment node
+*/
+
 import repositoryFactory from '@/repositories/repositoryFactory';
 
 const authRepository = repositoryFactory.get('auth');
