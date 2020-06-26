@@ -5,12 +5,12 @@ import Vuetify from 'vuetify';
 
 Vue.use(Vuetify);
 
-let vuetify
+let vuetify;
 
 describe('List', () => {
-  beforeEach(()=>{
-    vuetify = new Vuetify({})
-  })
+  beforeEach(() => {
+    vuetify = new Vuetify({});
+  });
 
   test('should display received title', () => {
     const wrapper = mount(List, {
@@ -172,15 +172,15 @@ describe('List', () => {
         list: {
           id: 0,
           title: 'title',
-          cards: [{id: 0, text: 'To be edited'}]
+          cards: [{ id: 0, text: 'To be edited' }]
         }
       }
     });
 
     const card = wrapper
-      .findAllComponents({name: 'Card'})
-      .filter(card => {
-        return card
+      .findAllComponents({ name: 'Card' })
+      .filter(c => {
+        return c
           .html()
           .toLowerCase()
           .includes('to be edited');
@@ -198,5 +198,4 @@ describe('List', () => {
     expect(wrapper.vm.list.cards.slice(-1)[0].text).toBe('Successfully edited');
     wrapper.destroy();
   });
-
 });

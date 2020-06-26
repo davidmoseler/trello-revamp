@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import '@vue/test-utils';
 import repositoryFactory from '@/repositories/repositoryFactory';
 
 const authRepository = repositoryFactory.get('auth');
