@@ -6,8 +6,8 @@ const repositories = {
 
 const defaultConfig = {
   mockResources: false
-}
+};
 
 export default {
-  get: (name, config=defaultConfig) => repositories[name](config)
+  get: (name, config = defaultConfig) => repositories[name](config)
 };

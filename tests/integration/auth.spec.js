@@ -4,7 +4,7 @@
 
 import repositoryFactory from '@/repositories/repositoryFactory';
 
-const authRepository = repositoryFactory.get('auth', {'mockResources': true});
+const authRepository = repositoryFactory.get('auth', { mockResources: true });
 
 describe('authRepository', () => {
   test('should not authenticate nonexistent user', async () => {

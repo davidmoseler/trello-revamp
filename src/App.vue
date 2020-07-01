@@ -14,14 +14,14 @@
       <span class="mr-2">Be happy</span>
       <v-avatar color="white" class="blue--text body-1">D</v-avatar>
     </v-app-bar>
-    <v-content>
+    <v-main>
       <ListGrid />
       <v-bottom-navigation absolute>
         <v-btn @click="loginModal = true" width="100%">
           Save
         </v-btn>
       </v-bottom-navigation>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
@@ -36,10 +36,10 @@ export default {
     Login,
     ListGrid
   },
-  data(){
+  data() {
     return {
       loginModal: false
-    }
+    };
   }
 };
 </script>
