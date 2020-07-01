@@ -1,10 +1,10 @@
 /**
  * @jest-environment node
-*/
+ */
 
 import repositoryFactory from '@/repositories/repositoryFactory';
 
-const authRepository = repositoryFactory.get('auth');
+const authRepository = repositoryFactory.get('auth', {'mockResources': true});
 
 describe('authRepository', () => {
   test('should not authenticate nonexistent user', async () => {
@@ -17,7 +17,7 @@ describe('authRepository', () => {
     expect(res.ok).toBe(true);
   });
 
-  test('should register user', async () => {
+  test('should authenticate existing user', async () => {
     const res = await authRepository.authenticate('idontexist', '123');
     expect(res.ok).toBe(true);
   });

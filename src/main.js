@@ -8,8 +8,15 @@ Vue.config.productionTip = false;
 
 Vue.use(VueSession, {persist: true})
 
+const config = {
+  mockResources: false
+}
+
 new Vue({
   router,
   vuetify,
-  render: h => h(App)
+  render: h => h(App),
+  data: {
+    config
+  }
 }).$mount('#app');

@@ -4,6 +4,10 @@ const repositories = {
   auth: authRepository
 };
 
+const defaultConfig = {
+  mockResources: false
+}
+
 export default {
-  get: name => repositories[name]
+  get: (name, config=defaultConfig) => repositories[name](config)
 };
