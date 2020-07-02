@@ -6,8 +6,8 @@
           Login before you can save to your account
         </v-card-title>
         <v-container>
-          <v-text-field name="email" label="Email" />
-          <v-text-field name="password" label="Password" type="password" />
+          <v-text-field :rules="emailRules" v-model="email" name="email" label="Email" />
+          <v-text-field v-model="password" name="password" label="Password" type="password" />
           <v-btn @click="login" class="login-button">Login</v-btn>
           <v-btn
             @click="
@@ -26,9 +26,15 @@
           Register a new user
         </v-card-title>
         <v-container>
-          <v-text-field name="email" label="Email" />
-          <v-text-field name="password" label="Password" type="password" />
-          <v-text-field name="repeat-password" label="Repeat Password" type="password" />
+          <v-text-field :rules="emailRules" v-model="email" name="email" label="Email" />
+          <v-text-field v-model="password" name="password" label="Password" type="password" />
+          <v-text-field
+            :rules="passwordRules"
+            v-model="repeatPassword"
+            name="repeat-password"
+            label="Repeat Password"
+            type="password"
+          />
           <v-btn @click="register" class="register-button">Register</v-btn>
         </v-container>
       </v-card>
@@ -47,7 +53,12 @@ export default {
     return {
       loginModal: this.value,
       registerModal: false,
-      authRepository: repositoryFactory.get('auth', this.$root.config)
+      authRepository: repositoryFactory.get('auth', this.$root.config),
+      email: '',
+      password: '',
+      repeatPassword: '',
+      emailRules: [v => !!v || 'Email is required', v => /.+@.+/.test(v) || 'Invalid email format'],
+      passwordRules: [() => this.password == this.repeatPassword || "Passwords don't match"]
     };
   },
   watch: {
@@ -62,16 +73,16 @@ export default {
   },
   methods: {
     async login() {
-      const res = await this.authRepository.authenticate('idontexist', '123');
+      const res = await this.authRepository.authenticate(this.email, this.password);
       if (res.ok) {
         this.$session.start();
         this.$session.set('jwt', res.jwt);
       }
     },
     async register() {
-      let res = await this.authRepository.register('idontexist', '123');
+      let res = await this.authRepository.register(this.email, this.password);
       if (res.ok) {
-        res = await this.authRepository.authenticate('idontexist', '123');
+        res = await this.authRepository.authenticate(this.email, this.password);
         this.$session.start();
         this.$session.set('jwt', res.jwt);
       }
