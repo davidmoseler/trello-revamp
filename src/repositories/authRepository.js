@@ -36,7 +36,8 @@ export default config => {
           };
         }
         return {
-          ok: false
+          ok: false,
+          error: 'Invalid username/password pair'
         };
       }
       return axios

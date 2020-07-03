@@ -59,9 +59,6 @@ describe('Login', () => {
     await btn.trigger('click');
 
     expect(wrapper.vm.$session.get('jwt')).toBe('mocktoken');
-
-    wrapper.vm.$session.destroy();
-    wrapper.destroy();
   });
 
   test('should login user', async () => {
@@ -77,9 +74,6 @@ describe('Login', () => {
     await btn.trigger('click');
 
     expect(wrapper.vm.$session.get('jwt')).toBe('mocktoken');
-
-    wrapper.vm.$session.destroy();
-    wrapper.destroy();
   });
 
   test('should warn if email is invalid in login', async () => {
@@ -88,9 +82,6 @@ describe('Login', () => {
     await input.trigger('input');
 
     expect(document.body.innerHTML).toContain('Invalid email format');
-
-    wrapper.vm.$session.destroy();
-    wrapper.destroy();
   });
 
   test('should warn if passwords do not match in register', async () => {
@@ -122,7 +113,65 @@ describe('Login', () => {
     expect(document.body.innerHTML).toContain("This field is required");
   });
 
-  test('should warn if the user does not exist', () => {});
+  test('should warn if password is empty in login', async () => {
+    let input = wrapper.find('input[name=password]');
+    input.element.value = 'a';
+    await input.trigger('input');
+    input.element.value = '';
+    await input.trigger('input');
 
-  test('should warn if the password is wrong', () => {});
+    expect(document.body.innerHTML).toContain("This field is required");
+  });
+
+  test('should warn if the user does not exist', async () => {
+    let input = wrapper.find('input[name=email]');
+    input.element.value = 'idontexist@mail.com';
+    await input.trigger('input');
+
+    input = wrapper.find('input[name=password]');
+    input.element.value = '123';
+    await input.trigger('input');
+
+    const btn = wrapper.find('.login-button');
+    await btn.trigger('click');
+
+    expect(document.body.innerHTML).toContain('Invalid username/password pair')
+  });
+
+  test('should warn if the password is wrong', async () => {
+    let input = wrapper.find('input[name=email]');
+    input.element.value = 'user@mail.com';
+    await input.trigger('input');
+
+    input = wrapper.find('input[name=password]');
+    input.element.value = '1234';
+    await input.trigger('input');
+
+    const btn = wrapper.find('.login-button');
+    await btn.trigger('click');
+
+    expect(document.body.innerHTML).toContain('Invalid username/password pair')
+  });
+
+  test('should warn if user already exists in registration', async () => {
+    let btn = wrapper.find('.open-register-modal-button');
+    await btn.trigger('click');
+
+    let input = wrapper.find('input[name=email]');
+    input.element.value = 'user@mail.com';
+    await input.trigger('input');
+
+    input = wrapper.find('input[name=password]');
+    input.element.value = '123';
+    await input.trigger('input');
+
+    input = wrapper.find('input[name=repeat-password]');
+    input.element.value = '123';
+    await input.trigger('input');
+
+    btn = wrapper.find('.register-button');
+    await btn.trigger('click');
+
+    expect(document.body.innerHTML).toContain('Username already registered')
+  });
 });

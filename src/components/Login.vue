@@ -39,6 +39,23 @@
         </v-container>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="error.display" max-width="450px">
+      <v-card class="card">
+        <v-card-title>
+          Authentication error
+        </v-card-title>
+        <v-container>
+          <p>{{error.message}}</p>
+          <v-btn
+            @click="
+              error.display = false;
+            "
+            class="open-register-modal-button"
+            >Ok</v-btn
+          >
+        </v-container>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -59,7 +76,11 @@ export default {
       repeatPassword: '',
       fieldRequiredRule: v => !!v || 'This field is required',
       emailRules: [v => this.fieldRequiredRule(v), v => !!v || 'Email is required', v => /.+@.+/.test(v) || 'Invalid email format'],
-      passwordRules: [v => this.fieldRequiredRule(v) || 'This field is required', () => this.password == this.repeatPassword || "Passwords don't match"]
+      passwordRules: [v => this.fieldRequiredRule(v) || 'This field is required', () => this.password == this.repeatPassword || "Passwords don't match"],
+      error: {
+        display: false,
+        message: ''
+      }
     };
   },
   watch: {
@@ -78,6 +99,9 @@ export default {
       if (res.ok) {
         this.$session.start();
         this.$session.set('jwt', res.jwt);
+      } else {
+        this.error.display = true
+        this.error.message = res.error
       }
     },
     async register() {
@@ -86,6 +110,9 @@ export default {
         res = await this.authRepository.authenticate(this.email, this.password);
         this.$session.start();
         this.$session.set('jwt', res.jwt);
+      } else {
+        this.error.display = true;
+        this.error.message = res.error;
       }
     },
     closeLoginModal() {
