@@ -7,7 +7,7 @@
         </v-card-title>
         <v-container>
           <v-text-field :rules="emailRules" v-model="email" name="email" label="Email" />
-          <v-text-field v-model="password" name="password" label="Password" type="password" />
+          <v-text-field :rules="[fieldRequiredRule]" v-model="password" name="password" label="Password" type="password" />
           <v-btn @click="login" class="login-button">Login</v-btn>
           <v-btn
             @click="
@@ -27,7 +27,7 @@
         </v-card-title>
         <v-container>
           <v-text-field :rules="emailRules" v-model="email" name="email" label="Email" />
-          <v-text-field v-model="password" name="password" label="Password" type="password" />
+          <v-text-field :rules="[fieldRequiredRule]" v-model="password" name="password" label="Password" type="password" />
           <v-text-field
             :rules="passwordRules"
             v-model="repeatPassword"
@@ -57,8 +57,9 @@ export default {
       email: '',
       password: '',
       repeatPassword: '',
-      emailRules: [v => !!v || 'Email is required', v => /.+@.+/.test(v) || 'Invalid email format'],
-      passwordRules: [() => this.password == this.repeatPassword || "Passwords don't match"]
+      fieldRequiredRule: v => !!v || 'This field is required',
+      emailRules: [v => this.fieldRequiredRule(v), v => !!v || 'Email is required', v => /.+@.+/.test(v) || 'Invalid email format'],
+      passwordRules: [v => this.fieldRequiredRule(v) || 'This field is required', () => this.password == this.repeatPassword || "Passwords don't match"]
     };
   },
   watch: {

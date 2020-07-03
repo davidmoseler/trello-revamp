@@ -34,6 +34,11 @@ describe('Login', () => {
     });
   });
 
+  afterEach(() => {
+    wrapper.vm.$session.destroy();
+    wrapper.destroy();
+  });
+
   test('should register user', async () => {
     let btn = wrapper.find('.open-register-modal-button');
     await btn.trigger('click');
@@ -105,9 +110,16 @@ describe('Login', () => {
     await input.trigger('input');
 
     expect(document.body.innerHTML).toContain("Passwords don't match");
+  });
 
-    wrapper.vm.$session.destroy();
-    wrapper.destroy();
+  test('should warn if email is empty in login', async () => {
+    let input = wrapper.find('input[name=email]');
+    input.element.value = 'a';
+    await input.trigger('input');
+    input.element.value = '';
+    await input.trigger('input');
+
+    expect(document.body.innerHTML).toContain("This field is required");
   });
 
   test('should warn if the user does not exist', () => {});
